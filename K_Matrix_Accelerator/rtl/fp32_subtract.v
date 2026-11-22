@@ -33,7 +33,7 @@ module fp32_subtract (
     reg [26:0] magnitude;
     reg [7:0] exp_work;
     reg sign_work;
-    reg [23:0] mantissa_rounded;
+    reg [24:0] mantissa_rounded;
     reg guard_bit, round_bit, sticky_bit, round_up;
     integer exp_diff;
 
