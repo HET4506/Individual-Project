@@ -28,7 +28,7 @@ module fp32_exp_lut (
         end else if (exponent == 8'hff) begin
             // NaN / infinity are outside the initial supported scope.
             result = 32'b0;
-        end else if (exponent >= 8'd130) begin
+        end else if (exponent >= 8'd131) begin
             // |x| >= 8: exp(x) is small; clamp to zero in this first version.
             result = 32'b0;
         end else begin
