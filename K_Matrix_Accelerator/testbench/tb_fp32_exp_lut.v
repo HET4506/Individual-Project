@@ -25,11 +25,11 @@ module tb_fp32_exp_lut;
     initial begin
         errors = 0;
         check(32'h80000000, 32'h3F800000); // exp(-0.0) = 1
-        check(32'hBF000000, 32'h3F1E6B2B); // exp(-0.5), address 16
+        check(32'hBF000000, 32'h3F1B4598); // exp(-0.5), address 16
         check(32'hBF800000, 32'h3EBC5AB2); // exp(-1.0), address 32
         check(32'hC0000000, 32'h3E0A9555); // exp(-2.0), address 64
-        check(32'hC0800000, 32'h3D15C1E4); // exp(-4.0), address 128
-        check(32'hC1000000, 32'h3B88C1F1); // exp(-8.0), address 256
+        check(32'hC0800000, 32'h3C960AAE); // exp(-4.0), address 128
+        check(32'hC1000000, 32'h39AFE108); // exp(-8.0), address 256
         check(32'hC1200000, 32'h00000000); // exp(-10): clamped to zero
 
         if (errors == 0)
