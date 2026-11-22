@@ -39,13 +39,13 @@ module fp32_square (
 
             // Squaring removes the input sign.
             if (product[47]) begin
-                unbiased_exponent = (a[30:23] - 127) * 2 + 1;
+                unbiased_exponent = ($signed({1'b0, a[30:23]}) - 127) * 2 + 1;
                 rounded_significand = {1'b0, product[47:24]};
                 guard_bit = product[23];
                 round_bit = product[22];
                 sticky_bit = |product[21:0];
             end else begin
-                unbiased_exponent = (a[30:23] - 127) * 2;
+                unbiased_exponent = ($signed({1'b0, a[30:23]}) - 127) * 2;
                 rounded_significand = {1'b0, product[46:23]};
                 guard_bit = product[22];
                 round_bit = product[21];
