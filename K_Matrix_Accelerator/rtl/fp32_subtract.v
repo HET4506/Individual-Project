@@ -82,7 +82,10 @@ module fp32_subtract (
         end else if (sign_a == sign_b_eff) begin
             magnitude_sum = {1'b0, ext_large} + {1'b0, ext_small_aligned};
             if (magnitude_sum[27]) begin
-                magnitude = shift_right_jam(magnitude_sum[27:1], 1);
+                // Normalize the carry by shifting right exactly one bit.
+                // Preserve the discarded least-significant bit as sticky.
+                magnitude = magnitude_sum[27:1];
+                magnitude[0] = magnitude[0] | magnitude_sum[0];
                 exp_work = exp_large + 1'b1;
             end else begin
                 magnitude = magnitude_sum[26:0];
@@ -112,10 +115,11 @@ module fp32_subtract (
             if (round_up)
                 mantissa_rounded = mantissa_rounded + 1'b1;
 
-            if (mantissa_rounded[23]) begin
+            if (mantissa_rounded[24]) begin
+                // Rounding produced a carry into a new exponent.
+                result = {sign_work, (exp_work + 1'b1), mantissa_rounded[23:1]};
+            end else if (mantissa_rounded[23]) begin
                 result = {sign_work, exp_work, mantissa_rounded[22:0]};
-            end else if (mantissa_rounded[24]) begin
-                result = {sign_work, (exp_work + 1'b1), 23'b0};
             end else begin
                 result = {sign_work, exp_work, mantissa_rounded[22:0]};
             end
